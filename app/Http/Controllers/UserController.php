@@ -2,8 +2,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\AdminEditRequest;
-use App\Http\Requests\auth\AuthenticatedChangePasswordRequest;
-use App\Http\Requests\auth\AuthenticatedEditRequest;
+use App\Http\Requests\Auth\AuthenticatedChangePasswordRequest;
+use App\Http\Requests\Auth\AuthenticatedEditRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use DataTables;

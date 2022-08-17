@@ -43,7 +43,6 @@
         $(function () {
             table = $('#userDatatable').DataTable({
                 processing: true,
-                serverSide: true,
                 ajax: "{{ route('admin.list') }}",
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
@@ -53,7 +52,7 @@
                         data: 'roles', name: 'roles',
                         render: function (data, type, row, meta) {
                             return capitalizeFirstLetter(data[0].name)
-                        }, orderable: false
+                        },
                     },
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
@@ -99,16 +98,16 @@
                 url: "{{ route('admin.register') }}",
                 data: $('#registerUserForm').serialize(),
                 method: 'POST',
-                success: function (response){
+                success: function (response) {
                     toastr.success(response.message);
                     $('#addUserCloseBtn').click()
                 },
-                error: function (response){
+                error: function (response) {
                     let message = JSON.parse(response.responseText)
                     toastr.error(message.message);
                 }
             })
-            table.draw();
+            table.ajax.reload();
         })
 
         /**
@@ -119,16 +118,16 @@
                 url: "{{ route('admin.edit') }}",
                 data: $('#editUserForm').serialize(),
                 method: 'POST',
-                success: function (response){
+                success: function (response) {
                     toastr.success(response.message);
                     $('#editUserCloseBtn').click()
                 },
-                error: function (response){
+                error: function (response) {
                     let message = JSON.parse(response.responseText)
                     toastr.error(message.message);
                 }
             })
-            table.draw();
+            table.ajax.reload();
         })
 
         /**
@@ -139,16 +138,16 @@
                 url: "{{ route('admin.delete') }}",
                 data: $('#deleteUserForm').serialize(),
                 method: 'POST',
-                success: function (response){
+                success: function (response) {
                     toastr.success(response.message);
                     $('#deleteUserCloseBtn').click()
                 },
-                error: function (response){
+                error: function (response) {
                     let message = JSON.parse(response.responseText)
                     toastr.error(message.message);
                 }
             })
-            table.draw();
+            table.ajax.reload();
         })
 
         /**
