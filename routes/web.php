@@ -48,10 +48,11 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
          */
         Route::get('', [UserController::class, 'showUsersDatatable'])
             ->name('list');
+
         /*
          * Get roles route
          */
-        Route::get('roles', [UserController::class, 'getRoles'])
+        Route::get('/roles', [UserController::class, 'getRoles'])
             ->name('roles');
         /*
          * Register - Edit - Delete Routes

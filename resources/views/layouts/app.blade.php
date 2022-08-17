@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"/>
     <link href="{{asset('css/jquery.dataTables.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/select2.min.css')}}"/>
+
     <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/jquery.validate.js')}}"></script>
     <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
@@ -23,15 +24,20 @@
     <script src="{{asset('js/toastr.min.js')}}"></script>
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
     <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/daterangepicker.css')}}"/>
+    <script src="{{asset('js/daterangepicker.min.js')}}"></script>
 </head>
 <body>
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/home') }}">
-                {{ __('Home') }}
-            </a>
+            @auth
+                <a class="navbar-brand" href="{{ url('/home') }}">
+                    {{ __('Home') }}
+                </a>
+            @endauth
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -93,5 +99,6 @@
         @yield('content')
     </main>
 </div>
+@yield('script-content')
 </body>
 </html>
