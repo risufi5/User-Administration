@@ -17,17 +17,19 @@
     <link rel="stylesheet" href="{{asset('css/select2.min.css')}}"/>
 
     <script src="{{asset('js/jquery.js')}}"></script>
-    <script src="{{asset('js/jquery.validate.js')}}"></script>
+    <script src="{{asset('js/jquery.validate.min.js')}}"></script>
     <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/select2.min.js')}}"></script>
     <script src="{{asset('js/toastr.min.js')}}"></script>
-    <!-- Scripts -->
+<!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+
     <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}"/>
-    <link rel="stylesheet" href="{{asset('css/daterangepicker.css')}}"/>
-    <script src="{{asset('js/daterangepicker.min.js')}}"></script>
 </head>
 <body>
 <div id="app">
@@ -99,6 +101,135 @@
         @yield('content')
     </main>
 </div>
-@yield('script-content')
+
+<script type="text/javascript">
+    $(function () {
+        $('input[name="birthday"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,startDate:moment().subtract(18,'years'),
+            minYear: 1901,
+            maxYear: parseInt(moment().subtract(18,'years').format('YYYY'), 10),
+            locale: {
+                format: 'YYYY-MM-DD',
+                cancelLabel: 'Clear'
+            }
+        });
+        $('input[name="birthday"]').val('')
+        $('input[name="birthday"]').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+        });
+    });
+
+    $.validator.addMethod("minAge", function(value, element, min) {
+        var today = new Date();
+        var birthDate = new Date(value);
+        var age = today.getFullYear() - birthDate.getFullYear();
+
+        if (age > min + 1) {
+            return true;
+        }
+
+        var m = today.getMonth() - birthDate.getMonth();
+
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        return age >= min;
+    }, "You are not old enough!");
+
+    jQuery.validator.addMethod("lettersonly", function(value, element) {
+        return this.optional(element) || /^[a-z\s]+$/i.test(value);
+    }, "Only alphabetical characters");
+
+    $("#registerUserForm").validate({
+
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('authError');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            },
+        rules: {
+            name: {
+                required: true,
+                lettersonly: true,
+                maxlength: 255
+            },
+
+            email: {
+                required: true,
+                email: true,
+                maxlength: 255
+            },
+
+            phone_number: {
+                required: true,
+                digits: true,
+                minLength: 8,
+            },
+
+            birthday: {
+                required: true,
+                date : true,
+                minAge: 18
+            },
+
+            password: {
+                required: true,
+                minlength: 8
+            },
+
+            password_confirmation: {
+                required: true,
+                minlength: 8,
+                equalTo: "#password"
+            },
+        },
+        messages: {
+
+            name: {
+                required: 'Please enter name',
+                lettersonly: "Name field must contain only letters",
+                maxlength: 255
+            },
+
+            email: {
+                required: "Please enter email",
+                email: "Invalid email format.",
+                maxlength: 255
+            },
+
+            phone_number: {
+                required: "Please enter phone number",
+                digits: "Must have only numbers",
+                maxlength: 'Must be max to 255 numbers',
+                minlength: 'Must be at least 8 numbers'
+            },
+
+            birthday: {
+                required: "Please enter birthday",
+                date : "Invalid date",
+                minAge: "You must be at least 18 years old!"
+            },
+
+            password: {
+                required: "Please enter password",
+                minlength: "Password must be at least 8 characters"
+            },
+
+            password_confirmation: {
+                required: "Please enter password confirmation",
+                minlength: "Password confirmation must be at least 8 characters",
+                equalTo: "Passwords don't match"
+            },
+        },
+    })
+</script>
 </body>
 </html>

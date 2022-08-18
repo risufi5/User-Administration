@@ -25,7 +25,9 @@ class AdminRegisterRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'email', 'max:255', 'unique:users'],
+            'phone_number' => ['required', 'digits:10', 'unique:users'],
+            'birthday' => ['required','date'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => ['nullable', 'exists:roles,name']
         ];

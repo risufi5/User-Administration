@@ -21,6 +21,8 @@
                         <th>Nr</th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Birthday</th>
                         <th>Role</th>
                         <th width="100px">Action</th>
                     </tr>
@@ -48,6 +50,8 @@
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
                     {data: 'name', name: 'name'},
                     {data: 'email', name: 'email'},
+                    {data: 'phone_number', name: 'phone_number'},
+                    {data: 'birthday', name: 'birthday'},
                     {
                         data: 'roles', name: 'roles',
                         render: function (data, type, row, meta) {

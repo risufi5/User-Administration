@@ -19,6 +19,8 @@ class AdminController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'phone_number' => $data['phone_number'],
+            'birthday' => $data['birthday'],
             'password' => Hash::make($data['password']),
         ]);
         $user->syncRoles($data['role']??'user');
